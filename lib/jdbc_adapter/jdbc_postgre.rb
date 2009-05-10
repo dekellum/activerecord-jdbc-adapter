@@ -219,16 +219,19 @@ module ::JdbcSpec
       table = sql.split(" ", 4)[2].gsub('"', '')
 
       # Try an insert with 'returning id' if available (PG >= 8.2)
-      if supports_insert_with_returning? && id_value.nil?
+      if supports_insert_with_returning? && id_value.nil? && false # FIXME:
+        # Disabled, as it causes:
+        # ActiveRecord::ActiveRecordError: A result was returned when none was expected
+        # This was previously disabled because postgresql_version returned 0
         pk, sequence_name = *pk_and_sequence_for(table) unless pk
         if pk
           id_value = select_value("#{sql} RETURNING #{quote_column_name(pk)}")
-          clear_query_cache
+          clear_query_cache #FIXME: Why now?
           return id_value
         end
       end
 
-      # Otherwise, plain insert 
+      # Otherwise, plain insert
       execute(sql, name)
 
       # Don't need to look up id_value if we already have it.
