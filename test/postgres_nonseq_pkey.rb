@@ -1,7 +1,17 @@
+#!/usr/bin/env jruby
 require 'rubygems'
-require 'active_record'
-require 'jdbc_common'
+
+# NPE trying to use v0.9 jrake test_postgres, so make this a standalone
+# test instead
+
+gem( 'activerecord', '= 2.1.2' )
+gem( 'activerecord', '= 2.1.2' )
+gem( 'activerecord-jdbc-adapter', '= 0.9' )
+gem( 'activerecord-jdbcpostgresql-adapter', '= 0.9' )
+
+require 'activerecord'
 require 'db/postgres'
+require 'test/unit'
 
 class CreateUrls < ActiveRecord::Migration
   def self.up
