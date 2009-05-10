@@ -87,10 +87,12 @@ module ::JdbcSpec
     def postgresql_version
       @postgresql_version ||=
         begin
-          select('SELECT version()').to_a[0][0] =~ /PostgreSQL (\d+)\.(\d+)\.(\d+)/
-          ($1.to_i * 10000) + ($2.to_i * 100) + $3.to_i
-        rescue
-          0
+          value = select_value('SELECT version()')
+          if value =~ /PostgreSQL (\d+)\.(\d+)\.(\d+)/
+            ($1.to_i * 10000) + ($2.to_i * 100) + $3.to_i
+          else
+            0
+          end
         end
     end
 
