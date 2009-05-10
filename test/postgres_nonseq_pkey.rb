@@ -35,6 +35,6 @@ class PostgresNonSeqPKey < Test::Unit::TestCase
       u.uhash = 'uhash'
       u.url = 'http://url'
     end
-    assert_equal( url.uhash, 'uhash' )
+    assert_equal( 'uhash', url.uhash )
   end
 end
